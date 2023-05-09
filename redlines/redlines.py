@@ -18,7 +18,7 @@ tokenizer = re.compile(r"((?:[^()\s]+|[().?!-])\s*)")
 
 # This pattern matches one or more newline characters `\n`, and any spaces between them.
 # It is used to split the text into paragraphs.
-# (?:\n *) is a non-capturing group that must start with a \n   and be followed by zero or more spaces.
+# (?:\n *) is a non-capturing group that must start with a \n and be followed by zero or more spaces.
 # ((?:\n *)+) is the previous non-capturing group repeated one or more times.
 paragraph_pattern = re.compile(r"((?:\n *)+)")
 
@@ -50,9 +50,9 @@ def split_paragraphs(text: str) -> list[str]:
 
 def concatenate_paragraphs_and_add_chr_182(text: str) -> str:
     """
-    Split paragraphs and concatenate them. Then add a character '¶' between paragraphs.
+    Split paragraphs and concatenate them. Then add a string ' ¶ ' between paragraphs.
     For example, if the text is "Hello\nWorld\nThis is a test", the result will be:
-    "Hello¶World¶This is a test"
+    "Hello ¶ World ¶ This is a test"
 
     :param text: The text to split.
     :return: a list of paragraphs.
