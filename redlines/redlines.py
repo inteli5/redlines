@@ -6,7 +6,7 @@ tokenizer = re.compile(r"((?:[^()\s]+|[().?!-])\s*)")
 
 # This pattern matches one or more newline characters `\n`, and any spaces between them.
 # It is used to split the text into paragraphs.
-# (?:\n *) is a non-capturing group that must start with a \n   and be followed by zero or more spaces.
+# (?:\n *) is a non-capturing group that must start with a \n and be followed by zero or more spaces.
 # ((?:\n *)+) is the previous non-capturing group repeated one or more times.
 paragraph_pattern = re.compile(r"((?:\n *)+)")
 
@@ -38,9 +38,9 @@ def split_paragraphs(text: str) -> list[str]:
 
 def concatenate_paragraphs_and_add_chr_182(text: str) -> str:
     """
-    Split paragraphs and concatenate them. Then add a character '¶' between paragraphs.
+    Split paragraphs and concatenate them. Then add a string ' ¶ ' between paragraphs.
     For example, if the text is "Hello\nWorld\nThis is a test", the result will be:
-    "Hello¶World¶This is a test"
+    "Hello ¶ World ¶ This is a test"
 
     :param text: The text to split.
     :return: a list of paragraphs.
@@ -132,7 +132,7 @@ class Redlines:
             if tag == 'equal':
                 temp_str="".join(self._seq1[i1:i2])
                 temp_str=re.sub('¶ ','\n\n',temp_str)
-                # here we use '¶ ' instead of ' ¶ ', because the leading space will be included in the previous token, 
+                # Here we use '¶ ' instead of ' ¶ ', because the leading space will be included in the previous token, 
                 # according to tokenizer = re.compile(r"((?:[^()\s]+|[().?!-])\s*)")
                 result.append(temp_str)
             elif tag == 'insert':
@@ -145,7 +145,7 @@ class Redlines:
                     result.pop()
             elif tag == 'delete':
                 result.append(f"<{md_styles['del'][0]}>{''.join(self._seq1[i1:i2])}</{md_styles['del'][1]}>")
-                # for 'delete', we make no change, because otherwise there will be two times '\n\n' than the original text.
+                # For 'delete', we make no change, because otherwise there will be two times '\n\n' than the original text.
             elif tag == 'replace':
                 result.append(
                     f"<{md_styles['del'][0]}>{''.join(self._seq1[i1:i2])}</{md_styles['del'][1]}>")
